@@ -3,14 +3,32 @@ import requests
 import re
 import pprint
 from urllib.parse import urljoin
-from datetime import datetime
 from dateutil.relativedelta import *
-from dateutil.easter import *
 from dateutil.rrule import *
-from dateutil.parser import *
 from datetime import *
 
 headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64; rv:61.0) Gecko/20100101 Firefox/61.0'}
+
+def furure_weekday(str_month):
+    """
+
+    :param str_month: Переводит строку с будущеи днем недели в формат datetime, например 2019-02-24
+    :return:
+    """
+    if 'понедел' in str_month:
+        return date.today() + relativedelta(weekday=MO)
+    elif 'вторник' in str_month:
+        return date.today() + relativedelta(weekday=TU)
+    elif 'сред' in str_month:
+        return date.today() + relativedelta(weekday=WE)
+    elif 'четверг' in str_month:
+        return date.today() + relativedelta(weekday=TH)
+    elif 'пятниц' in str_month:
+        return date.today() + relativedelta(weekday=FR)
+    elif 'суббот' in str_month:
+        return date.today() + relativedelta(weekday=SA)
+    elif 'воскресен' in str_month:
+        return date.today() + relativedelta(weekday=SU)
 
 def MonthRefactor(str_month):
     if 'январ' in str_month:
@@ -103,28 +121,24 @@ def www32_top_ru(url_page):
 
             date = item.find("span", "comment-grey").text.strip()
             if date.find("Сегодня") != -1:
-                day = datetime.now().day
-                month = datetime.now().month
-                year = datetime.now().year
+                date = datetime.now().strftime("%YYYY-%m-%d")
             else:
                 try:
                     #Регулярка, ищет цифры в начале строки
-                    day = re.search("^\d+", date).group(0)
-                    if(len(day) == 1):
-                        day = "0" + day
-                    month = MonthRefactor(date)
+                    day = int(re.search("^\d+", date).group(0))
+
+                    month = int(MonthRefactor(date))
                     #Регулярка, поиск чисел с длинной 3 или 4 цифры
                     text_search = re.search("\d{3,4}", date)
                     if (text_search is not None):
-                        year = text_search.group(0)
+                        year = int(text_search.group(0))
 
                     else:
                         year = datetime.now().year
+
+                    date = datetime(year, month, day).strftime("%Y-%m-%d")
                 except AttributeError:
-                    #Временная заглушка
-                    day = "00"
-                    month = "00"
-                    year = "0000"
+                    date = furure_weekday(date)
 
             emotion = item.find("span", {"itemprop" : "reviewRating"}).find("div").get("class")[0]
 
@@ -136,8 +150,6 @@ def www32_top_ru(url_page):
                 count_neitral_comments += 1
             text = item.find("div", "comment-text").text.strip()
 
-            date = day + "-" + month + "-" + year
-
             url = urljoin(url_site, item.find("link").get("href"))
             #Количество комментариев следующего уровня
             subcomments = item.select('div[itemprop = "review"]')
@@ -145,7 +157,6 @@ def www32_top_ru(url_page):
                 response = "yes"
             else:
                 response = "no"
-            print(day, month, year)
             comment = {
                 'author_name': author_name,
                 'date': date,
@@ -168,17 +179,13 @@ def www32_top_ru(url_page):
         'statistic': statistic,
         'comments': comment_list
     }
-    # print("Результат dict", main_dict)
     pprint.pprint(main_dict)
     return main_dict
 
 def all_parsers():
-    www32_top_ru("https://www.32top.ru/dr/10545-stepanov-andrey-vasilevich/")
+    # www32_top_ru("https://www.32top.ru/dr/10545-stepanov-andrey-vasilevich/")
+    www32_top_ru("https://www.32top.ru/clinics/588/")
 
 
 if __name__ == '__main__':
     all_parsers()
-    # now = parse("Во вторник")
-    # print(now)
-    # test = rrule("Во вторник", dtstart=datetime.today(), bymonth=8, bymonthday=13, byweekday=FR)
-    # print(test[0])
