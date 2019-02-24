@@ -60,31 +60,39 @@ def get_html (request):
     return BeautifulSoup(request, 'lxml')
 
 
-def www32_top_ru(url_page):
+def www32_top_ru(id, type, url_page):
     """
 
     Данные подгружаются по Ajax методом Post до 8 отзывов на странице.
     :param url_page: Страница клиники или врача
     :return:
     """
-    if url_page.find("clinics") != -1:
-        type = "clinic"
-    elif(re.search(r"\bdr\b", url_page) != None):
-        type = "doctor"
-    else:
-        raise Exception("Не был определен тип страницы")
+    if ((type != "clinic") and (type != "doctor") and (type is not None)):
+        raise Exception("Неправильно указан входный тип. Возможно: clinic, doctor или None")
 
-    r = requests.request("GET", url_page).content
-    html = get_html(r)
 
-    if type is "clinic":
-        id = html.select_one("input.js-clinic_id.hidden").get("value")
-    elif type is "doctor":
-        id_search = re.search(r"\b\d+\b", url_page)
-        if id_search != None:
-            id = id_search.group(0)
+    if type is None:
+
+        if url_page.find("clinics") != -1:
+            type = "clinic"
+        elif(re.search(r"\bdr\b", url_page) != None):
+            type = "doctor"
         else:
-            raise Exception("Не определен Id по ссылке")
+            raise Exception("Не был определен тип страницы")
+
+        if id is None:
+            r = requests.request("GET", url_page).content
+            html = get_html(r)
+
+            if type is "clinic":
+                id = html.select_one("input.js-clinic_id.hidden").get("value")
+
+            elif type is "doctor":
+                id_search = re.search(r"\b\d+\b", url_page)
+                if id_search != None:
+                    id = id_search.group(0)
+                else:
+                    raise Exception("Не определен Id по ссылке")
 
     main_url = "https://www.32top.ru/Controller/ajax/"
     url_site = "https://www.32top.ru/"
@@ -188,8 +196,9 @@ def www32_top_ru(url_page):
     return main_dict
 
 def all_parsers():
-    www32_top_ru("https://www.32top.ru/dr/10545-stepanov-andrey-vasilevich/")
-    # www32_top_ru("https://www.32top.ru/clinics/588/")
+    # www32_top_ru(10545, "doctor", "https://www.32top.ru/dr/10545-stepanov-andrey-vasilevich/")
+    www32_top_ru(10545, "doctor", None)
+    # www32_top_ru(None, None, "https://www.32top.ru/dr/10545-stepanov-andrey-vasilevich/")
 
 
 if __name__ == '__main__':
