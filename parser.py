@@ -74,12 +74,17 @@ def www32_top_ru(url_page):
     else:
         raise Exception("Не был определен тип страницы")
 
+    r = requests.request("GET", url_page).content
+    html = get_html(r)
 
-    id_search = re.search(r"\b\d+\b", url_page)
-    if id_search != None:
-        id = id_search.group(0)
-    else:
-        raise Exception("Не определен Id по ссылке")
+    if type is "clinic":
+        id = html.select_one("input.js-clinic_id.hidden").get("value")
+    elif type is "doctor":
+        id_search = re.search(r"\b\d+\b", url_page)
+        if id_search != None:
+            id = id_search.group(0)
+        else:
+            raise Exception("Не определен Id по ссылке")
 
     main_url = "https://www.32top.ru/Controller/ajax/"
     url_site = "https://www.32top.ru/"
@@ -183,8 +188,8 @@ def www32_top_ru(url_page):
     return main_dict
 
 def all_parsers():
-    # www32_top_ru("https://www.32top.ru/dr/10545-stepanov-andrey-vasilevich/")
-    www32_top_ru("https://www.32top.ru/clinics/588/")
+    www32_top_ru("https://www.32top.ru/dr/10545-stepanov-andrey-vasilevich/")
+    # www32_top_ru("https://www.32top.ru/clinics/588/")
 
 
 if __name__ == '__main__':
