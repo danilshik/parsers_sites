@@ -159,13 +159,14 @@ def www32_top_ru(url_page):
                 response = "no"
             comment = {
                 'author_name': author_name,
-                'date': date,
+                'date': str(date),
                 'emotion': emotion,
                 'text': text,
                 'response': response,
                 'url': url
             }
             comment_list.append(comment)
+            print(str(date))
 
         current_page += 1
 
