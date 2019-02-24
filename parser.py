@@ -138,7 +138,7 @@ def www32_top_ru(url_page):
 
                     date = datetime(year, month, day).strftime("%Y-%m-%d")
                 except AttributeError:
-                    date = furure_weekday(date)
+                    date = str(furure_weekday(date))
 
             emotion = item.find("span", {"itemprop" : "reviewRating"}).find("div").get("class")[0]
 
@@ -159,14 +159,13 @@ def www32_top_ru(url_page):
                 response = "no"
             comment = {
                 'author_name': author_name,
-                'date': str(date),
+                'date': date,
                 'emotion': emotion,
                 'text': text,
                 'response': response,
                 'url': url
             }
             comment_list.append(comment)
-            print(str(date))
 
         current_page += 1
 
