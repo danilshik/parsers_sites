@@ -9,26 +9,26 @@ from datetime import *
 
 headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64; rv:61.0) Gecko/20100101 Firefox/61.0'}
 
-def furure_weekday(str_month):
+def last_weekday(str_month):
     """
 
-    :param str_month: Переводит строку с будущеи днем недели в формат datetime, например 2019-02-24
+    :param str_month: Переводит строку с прошлым днем недели в формат datetime, например 2019-02-24
     :return:
     """
     if 'понедел' in str_month:
-        return date.today() + relativedelta(weekday=MO)
+        return date.today() - relativedelta(weekday=MO(-1))
     elif 'вторник' in str_month:
-        return date.today() + relativedelta(weekday=TU)
+        return date.today() + relativedelta(weekday=TU(-1))
     elif 'сред' in str_month:
-        return date.today() + relativedelta(weekday=WE)
+        return date.today() + relativedelta(weekday=WE(-1))
     elif 'четверг' in str_month:
-        return date.today() + relativedelta(weekday=TH)
+        return date.today() + relativedelta(weekday=TH(-1))
     elif 'пятниц' in str_month:
-        return date.today() + relativedelta(weekday=FR)
+        return date.today() + relativedelta(weekday=FR(-1))
     elif 'суббот' in str_month:
-        return date.today() + relativedelta(weekday=SA)
+        return date.today() + relativedelta(weekday=SA(-1))
     elif 'воскресен' in str_month:
-        return date.today() + relativedelta(weekday=SU)
+        return date.today() + relativedelta(weekday=SU(-1))
 
 def MonthRefactor(str_month):
     if 'январ' in str_month:
@@ -138,7 +138,7 @@ def www32_top_ru(url_page):
 
                     date = datetime(year, month, day).strftime("%Y-%m-%d")
                 except AttributeError:
-                    date = str(furure_weekday(date))
+                    date = str(last_weekday(date))
 
             emotion = item.find("span", {"itemprop" : "reviewRating"}).find("div").get("class")[0]
 
