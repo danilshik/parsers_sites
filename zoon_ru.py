@@ -4,7 +4,8 @@ import pprint
 from datetime import *
 import parse_helper as ph
 
-headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64; rv:61.0) Gecko/20100101 Firefox/61.0'}
+headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64; rv:61.0) Gecko/20100101 Firefox/61.0',
+           'X-Requested-With': 'XMLHttpRequest'}
 
 def parser(url_main, id):
     """
@@ -24,9 +25,11 @@ def parser(url_main, id):
         html = ph.get_html(r)
         id = html.select_one("div.comments-section.service-feedbacks.service-box-white.js-togglable-content.js-reviews-module.js-corpservice-block").get("data-owner-id")
 
-    url_page = "https://spb.zoon.ru/js.php?area=service&action=CommentList&owner[]=organization&owner[]=prof&organization=" + id
+    url_page = "https://spb.zoon.ru/js.php?area=service&action=CommentList&owner[]=organization&owner[]=prof&organization=" + id + "&limit=10000"
     json = requests.request("GET", url_page).json()
+    print(json)
     html = ph.get_html(json["list"])
+    print(html)
 
     items = html.select('body > li')
     print(len(items))
@@ -98,11 +101,11 @@ def parser(url_main, id):
         'comments': comment_list
     }
 
-    pprint.pprint(main_dict)
+    # pprint.pprint(main_dict)
     return main_dict
 
 
 
 if __name__ == '__main__':
-    parser("https://spb.zoon.ru/medical/stomatologiya_stellit_na_ulitse_lyoni_golikova/?zutm_source=zbd&zutm_medium=none", "503c4c343c72dd7d70000024")
-    # parser("https://spb.zoon.ru/p-doctor/nargiza_charyevna_dzhumaeva/")
+    # parser("https://spb.zoon.ru/medical/stomatologiya_stellit_na_ulitse_lyoni_golikova/?zutm_source=zbd&zutm_medium=none", "503c4c343c72dd7d70000024")
+    parser("https://spb.zoon.ru/medical/klinika_kosmetologii_i_stomatologii_mediestetik_comfort_na_leninskom_prospekte/", "50230d843c72dd4077000000")
