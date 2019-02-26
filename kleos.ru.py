@@ -1,24 +1,18 @@
 from bs4 import BeautifulSoup
 import requests
-import re
 import pprint
-from urllib.parse import urljoin
-from dateutil.relativedelta import *
-from dateutil.rrule import *
-from datetime import *
 import json
+import parse_helper as ph
+
 headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64; rv:61.0) Gecko/20100101 Firefox/61.0'}
 
 
-
-def get_html (request):
-    return BeautifulSoup(request, 'lxml')
-
-def parser(id, type):
+def parser(id, type, url_page):
     """
 
     :param id: id специалиста или организации
     :param type: или doctor или clinic
+    :param url_page страница,
     :return:
     """
 
@@ -27,6 +21,7 @@ def parser(id, type):
     count_positive_comments = 0
     count_negative_comments = 0
     count_neitral_comments = 0
+    count = 0
     comment_list = []
     comment_id_list = []
 
@@ -45,15 +40,16 @@ def parser(id, type):
         params = {'last_ids[]': comment_id_list}
         r = requests.request("GET", "https://www.kleos.ru/comment/0/operation?mode=getlist&item_id=" + str(id) + "&item_name=" + item_name + "&comment_cnt=1000000",
                              headers=headers, params=params).content
-        html = get_html(r)
+        html = ph.get_html(r)
         json_text = json.loads(html.select_one("p").text)
-        html_json = get_html(json_text["html"])
+        html_json = ph.get_html(json_text["html"])
         if(json_text["is_last"] == True):
             is_last = True
         items = html_json.select("body > div.comment-item")
         print("Количество отзывов:", len(items))
         # items= items[:1]
         for item in items:
+            count += 1
             subcomments = item.select("div.comment-item")
             if(len(subcomments) > 0):
                 response = "yes"
@@ -92,13 +88,13 @@ def parser(id, type):
                 'emotion': emotion,
                 'text': text,
                 'response': response,
-                'url': url
+                'url': url_page
             }
             print(comment)
             comment_list.append(comment)
 
     statistic = {
-        'count': count_positive_comments + count_negative_comments + count_neitral_comments,
+        'count': count,
         'positive': count_positive_comments,
         'negative': count_negative_comments,
         'neutral': count_neitral_comments

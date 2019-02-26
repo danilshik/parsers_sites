@@ -1,71 +1,19 @@
-from bs4 import BeautifulSoup
 import requests
 import re
 import pprint
-from urllib.parse import urljoin
-from dateutil.relativedelta import *
-from dateutil.rrule import *
 from datetime import *
+from urllib.parse import urljoin
+import parse_helper as ph
 
 headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64; rv:61.0) Gecko/20100101 Firefox/61.0'}
-
-
-def last_weekday(str_month):
-    """
-
-    :param str_month: Переводит строку с прошлым днем недели в формат datetime, например 2019-02-24
-    :return:
-    """
-    if 'понедел' in str_month:
-        return date.today() - relativedelta(weekday=MO(-1))
-    elif 'вторник' in str_month:
-        return date.today() + relativedelta(weekday=TU(-1))
-    elif 'сред' in str_month:
-        return date.today() + relativedelta(weekday=WE(-1))
-    elif 'четверг' in str_month:
-        return date.today() + relativedelta(weekday=TH(-1))
-    elif 'пятниц' in str_month:
-        return date.today() + relativedelta(weekday=FR(-1))
-    elif 'суббот' in str_month:
-        return date.today() + relativedelta(weekday=SA(-1))
-    elif 'воскресен' in str_month:
-        return date.today() + relativedelta(weekday=SU(-1))
-
-def get_html (request):
-    return BeautifulSoup(request, 'lxml')
-
-def MonthRefactor(str):
-    str_month = str.lower()
-    if 'январ' in str_month:
-        return('01')
-    elif 'феврал' in str_month:
-        return('02')
-    elif 'март' in str_month:
-        return('03')
-    elif 'апрел' in str_month:
-        return('04')
-    elif 'май' in str_month or 'мая' in str_month:
-        return('05')
-    elif 'июн' in str_month:
-        return('06')
-    elif 'июл' in str_month:
-        return('07')
-    elif 'август' in str_month:
-        return('08')
-    elif 'сентябр' in str_month:
-        return('09')
-    elif 'октябр' in str_month:
-        return('10')
-    elif 'ноябр' in str_month:
-        return('11')
-    elif 'декабр' in str_month:
-        return('12')
 
 def parser(id, type, url_page):
     """
 
     Данные подгружаются по Ajax методом Post до 8 отзывов на странице.
     :param url_page: Страница клиники или врача
+    :param id: Идентификатор больницы или доктора
+    :param type: тип clinic или doctor
     :return:
     """
     if ((type != "clinic") and (type != "doctor") and (type is not None)):
@@ -83,7 +31,7 @@ def parser(id, type, url_page):
 
         if id is None:
             r = requests.request("GET", url_page).content
-            html = get_html(r)
+            html = ph.get_html(r)
 
             if type is "clinic":
                 id = html.select_one("input.js-clinic_id.hidden").get("value")
@@ -103,6 +51,7 @@ def parser(id, type, url_page):
     count_positive_comments = 0
     count_negative_comments = 0
     count_neitral_comments = 0
+    count = 0
 
     comment_list = []
     #Текущая страница pagination
@@ -118,7 +67,7 @@ def parser(id, type, url_page):
                       str(id) +"&params[rate]=all&params[commentId]=&params[sort]=&params[page]=" + str(current_page)
 
         respon = requests.request("POST", main_url, data=payload, params=query_string).json()
-        html = get_html(respon["js"]["result"]["html"])
+        html = ph.get_html(respon["js"]["result"]["html"])
 
         if(type is "clinic"):
             items = html.select('#clinicComments > div[itemprop = "review"]')
@@ -131,6 +80,7 @@ def parser(id, type, url_page):
             break
 
         for item in items:
+            count += 1
             author_name = item.select('span[itemprop = "author"] > div')[0].text.strip()
 
             date = item.find("span", "comment-grey").text.strip()
@@ -141,7 +91,7 @@ def parser(id, type, url_page):
                     #Регулярка, ищет цифры в начале строки
                     day = int(re.search("^\d+", date).group(0))
 
-                    month = int(MonthRefactor(date))
+                    month = int(ph.MonthRefactor(date))
                     #Регулярка, поиск чисел с длинной 3 или 4 цифры
                     text_search = re.search("\d{3,4}", date)
                     if (text_search is not None):
@@ -152,7 +102,7 @@ def parser(id, type, url_page):
 
                     date = datetime(year, month, day).strftime("%Y-%m-%d")
                 except AttributeError:
-                    date = str(last_weekday(date))
+                    date = str(ph.last_weekday(date))
 
             emotion = item.find("span", {"itemprop" : "reviewRating"}).find("div").get("class")[0]
 
@@ -184,7 +134,7 @@ def parser(id, type, url_page):
         current_page += 1
 
     statistic = {
-        'count': count_positive_comments + count_negative_comments + count_neitral_comments,
+        'count': count,
         'positive': count_positive_comments,
         'negative': count_negative_comments,
         'neutral': count_neitral_comments

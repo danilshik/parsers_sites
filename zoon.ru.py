@@ -1,65 +1,37 @@
 from bs4 import BeautifulSoup
 import requests
-import re
 import pprint
-from urllib.parse import urljoin
-from dateutil.relativedelta import *
-from dateutil.rrule import *
 from datetime import *
-import json
+import parse_helper as ph
+
 headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64; rv:61.0) Gecko/20100101 Firefox/61.0'}
 
-def MonthRefactor(str):
-    str_month = str.lower()
-    if 'январ' in str_month:
-        return('01')
-    elif 'феврал' in str_month:
-        return('02')
-    elif 'март' in str_month:
-        return('03')
-    elif 'апрел' in str_month:
-        return('04')
-    elif 'май' in str_month or 'мая' in str_month:
-        return('05')
-    elif 'июн' in str_month:
-        return('06')
-    elif 'июл' in str_month:
-        return('07')
-    elif 'август' in str_month:
-        return('08')
-    elif 'сентябр' in str_month:
-        return('09')
-    elif 'октябр' in str_month:
-        return('10')
-    elif 'ноябр' in str_month:
-        return('11')
-    elif 'декабр' in str_month:
-        return('12')
+def parser(url_main, id):
+    """
 
-def get_html (request):
-    return BeautifulSoup(request, 'lxml')
-
-
-def parser(url_main):
+    :param url_main: Ссылка на страницу
+    :param id: идентификатор больницы или доктора, в случае значения None, определяется по html-странице
+    :return:
+    """
     count_positive_comments = 0
     count_negative_comments = 0
     count_neitral_comments = 0
-    count_none_comments = 0
+    count = 0
     comment_list = []
 
-    r = requests.request("GET", url_main).content
-    html = get_html(r)
-    id = html.select_one("div.comments-section.service-feedbacks.service-box-white.js-togglable-content.js-reviews-module.js-corpservice-block").get("data-owner-id")
-    print(id)
+    if id is None:
+        r = requests.request("GET", url_main).content
+        html = ph.get_html(r)
+        id = html.select_one("div.comments-section.service-feedbacks.service-box-white.js-togglable-content.js-reviews-module.js-corpservice-block").get("data-owner-id")
 
     url_page = "https://spb.zoon.ru/js.php?area=service&action=CommentList&owner[]=organization&owner[]=prof&organization=" + id
     json = requests.request("GET", url_page).json()
-    # print(json)
-    html = get_html(json["list"])
+    html = ph.get_html(json["list"])
 
     items = html.select('body > li')
     print(len(items))
     for item in items:
+        count += 1
 
         block_data_emotion = item.select_one('span.gray')
 
@@ -68,7 +40,7 @@ def parser(url_main):
         day = date_block[0]
         if(len(day) == 1):
             day = "0" + day
-        month = MonthRefactor(date_block[1])
+        month = ph.MonthRefactor(date_block[1])
         if(date_block[2].isdigit()):
             year = date_block[2]
         else:
@@ -82,7 +54,6 @@ def parser(url_main):
             emotion_text = block_data_emotion.select('span.star-item > span[style="width: 100%; display: block;"]')
             if(len(emotion_text) == 0):
                 emotion = None
-                count_none_comments += 1
             elif (len(emotion_text) >= 4.5):
                 emotion = "positive"
                 count_positive_comments += 1
@@ -117,7 +88,7 @@ def parser(url_main):
         comment_list.append(comment)
 
     statistic = {
-        'count': count_positive_comments + count_negative_comments + count_neitral_comments + count_none_comments,
+        'count': count,
         'positive': count_positive_comments,
         'negative': count_negative_comments,
         'neutral': count_neitral_comments
@@ -133,5 +104,5 @@ def parser(url_main):
 
 
 if __name__ == '__main__':
-    parser("https://spb.zoon.ru/medical/mrt_tsentr_i_klinika_riorit_na_metro_grazhdanskij_prospekt/")
+    parser("https://spb.zoon.ru/medical/stomatologiya_stellit_na_ulitse_lyoni_golikova/?zutm_source=zbd&zutm_medium=none", "503c4c343c72dd7d70000024")
     # parser("https://spb.zoon.ru/p-doctor/nargiza_charyevna_dzhumaeva/")
