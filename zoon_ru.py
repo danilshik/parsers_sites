@@ -101,7 +101,7 @@ def parser(url_main, id):
         'comments': comment_list
     }
 
-    # pprint.pprint(main_dict)
+    pprint.pprint(main_dict)
     return main_dict
 
 
