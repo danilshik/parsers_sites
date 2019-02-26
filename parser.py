@@ -294,6 +294,11 @@ def www_kleos_ru(id, type):
     return main_dict
 
 def startsmile_ru(url_page):
+    """
+    Парсинг производится по HTML.
+    :param url_page: ссылка на страницу или клинику
+    :return:
+    """
     count_positive_comments = 0
     count_negative_comments = 0
     count_neitral_comments = 0
