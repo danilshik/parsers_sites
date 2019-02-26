@@ -3,6 +3,7 @@ from dateutil.rrule import *
 from datetime import *
 from bs4 import BeautifulSoup
 
+print()
 
 def last_weekday(str_month):
     """

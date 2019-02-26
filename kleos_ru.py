@@ -1,4 +1,4 @@
-from bs4 import BeautifulSoup
+
 import requests
 import pprint
 import json
@@ -111,4 +111,4 @@ def parser(id, type, url_page):
 
 
 if __name__ == '__main__':
-    parser(7493, "clinic")
+    parser(7493, "clinic", "url")
