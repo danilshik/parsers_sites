@@ -60,7 +60,9 @@ def parser(id):
             except Exception as e:
                 emotion = None
                 print(e)
-            response_block = item.select_one("div.repliesreplies_theme_light.ng-scope > div")
+            # print(item)
+            response_block = item.select_one("div.replies__item-text")
+            # print(response_block)
             if response_block is None:
                 response = "no"
             else:
@@ -80,7 +82,7 @@ def parser(id):
             print(comment)
             comment_list.append(comment)
 
-
+            print("---------------------------------------------------------")
         page += 1
 
     statistic = {
@@ -100,4 +102,4 @@ def parser(id):
 
 
 if __name__ == '__main__':
-    parser(8980641)
+    parser(11786108)
