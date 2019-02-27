@@ -65,8 +65,8 @@ def parser(id, type, url_page):
         elif(type is "doctor"):
             payload = "call=Component_Comment_Roll/index&params[service]=0&params[modelName]=Doctor&params[modelId]="+ \
                       str(id) +"&params[rate]=all&params[commentId]=&params[sort]=&params[page]=" + str(current_page)
-
-        respon = requests.request("POST", main_url, data=payload, params=query_string).json()
+        proxy = ph.get_proxy()
+        respon = requests.request("POST", main_url, data=payload, params=query_string, proxies=proxy[0], auth=proxy[1]).json()
         html = ph.get_html(respon["js"]["result"]["html"])
 
         if(type is "clinic"):

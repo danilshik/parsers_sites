@@ -21,12 +21,13 @@ def parser(url_main, id):
     comment_list = []
 
     if id is None:
-        r = requests.request("GET", url_main).content
+        proxy = ph.get_proxy()
+        r = requests.request("GET", url_main, proxies=proxy[0], auth=proxy[1]).content
         html = ph.get_html(r)
         id = html.select_one("div.comments-section.service-feedbacks.service-box-white.js-togglable-content.js-reviews-module.js-corpservice-block").get("data-owner-id")
-
+    proxy = ph.get_proxy()
     url_page = "https://spb.zoon.ru/js.php?area=service&action=CommentList&owner[]=organization&owner[]=prof&organization=" + id + "&limit=10000"
-    json = requests.request("GET", url_page).json()
+    json = requests.request("GET", url_page, proxies=proxy[0], auth=proxy[1]).json()
     print(json)
     html = ph.get_html(json["list"])
     print(html)

@@ -24,7 +24,8 @@ def parser(id):
             "page" : page,
             "sort" : "recent"
         }
-        r = requests.request("GET", url_page, params=params).content
+        proxy = ph.get_proxy()
+        r = requests.request("GET", url_page, params=params, proxies=proxy[0], auth=proxy[1]).content
         print("Pagination", page)
         html = ph.get_html(r)
         # print(html)

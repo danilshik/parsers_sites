@@ -37,9 +37,10 @@ def parser(id, type, url_page):
         raise Exception("Указан неправильный type")
 
     while is_last != True:
+        proxy = ph.get_proxy()
         params = {'last_ids[]': comment_id_list}
         r = requests.request("GET", "https://www.kleos.ru/comment/0/operation?mode=getlist&item_id=" + str(id) + "&item_name=" + item_name + "&comment_cnt=1000000",
-                             headers=headers, params=params).content
+                             headers=headers, params=params, proxies=proxy[0], auth=proxy[1]).content
         html = ph.get_html(r)
         json_text = json.loads(html.select_one("p").text)
         html_json = ph.get_html(json_text["html"])

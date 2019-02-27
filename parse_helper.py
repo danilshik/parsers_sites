@@ -2,8 +2,25 @@ from dateutil.relativedelta import *
 from dateutil.rrule import *
 from datetime import *
 from bs4 import BeautifulSoup
+from requests.auth import HTTPProxyAuth
+index_proxy = 0
+proxy_list = [
+    "http;207.164.21.34:3128;u5aX8c;LCTkNM",
+    "http;185.233.80.187:9937;u5aX8c;LCTkNM",
+    "http;185.233.81.118:9401;u5aX8c;LCTkNM"
+]
 
-print()
+def get_proxy():
+    global index_proxy
+    proxy = proxy_list[index_proxy]
+    index_proxy += 1
+    if(index_proxy == len(proxy_list)):
+        index_proxy = 0
+
+    proxy_block = proxy.split(";")
+    proxies = {proxy_block[0]: proxy_block[1]}
+    auth = HTTPProxyAuth(proxy_block[2], proxy_block[3])
+    return [proxies, auth]
 
 def last_weekday(str_month):
     """
