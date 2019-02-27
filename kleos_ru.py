@@ -10,7 +10,7 @@ headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64; rv:61.0) Gecko/20
 def parser(id, type, url_page):
     """
 
-    :param id: id специалиста или организации
+    :param id: id специалиста или организации. Можно взять в элементе div с классом star-rating-svg в параметре data-org-id
     :param type: или doctor или clinic
     :param url_page страница,
     :return:
