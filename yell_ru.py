@@ -8,7 +8,8 @@ headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64; rv:61.0) Gecko/20
 def parser(id):
     """
 
-    :param id: идентификатор клиники, парсинг происходит по разбору Ajax запросу
+    :param id: идентификатор клиники, парсинг происходит по разбору Ajax запросу, можно вытащить из url, например
+    https://www.yell.ru/moscow/com/stomatologicheskaya-klinika-lanri-clinic_8980641/, id 8980641
     :return:
     """
     url_page = "https://www.yell.ru/company/reviews/"
@@ -41,8 +42,8 @@ def parser(id):
                 month = ph.MonthRefactor(date_block[1])
                 year = date_block[2]
                 date = year + "-" + month + "-" + day
-            except:
-                date = None
+            except Exception as e:
+                date = str(ph.last_year(int(date_block[0])))
 
             author_name = item.select_one("div.reviews__item-user-name").text.strip()
 
@@ -103,4 +104,4 @@ def parser(id):
 
 
 if __name__ == '__main__':
-    parser(11786108)
+    parser(8980641)

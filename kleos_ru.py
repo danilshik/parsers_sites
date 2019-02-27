@@ -48,7 +48,6 @@ def parser(id, type, url_page):
             is_last = True
         items = html_json.select("body > div.comment-item")
         print("Количество отзывов:", len(items))
-        # items= items[:1]
         for item in items:
             count += 1
             subcomments = item.select("div.comment-item")
@@ -81,7 +80,7 @@ def parser(id, type, url_page):
                 emotion = None
 
             text = item.select_one("div.comment-text.padding-coment").text.strip()
-            url = None
+
 
             comment = {
                 'author_name': author_name,

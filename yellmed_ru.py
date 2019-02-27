@@ -8,7 +8,7 @@ headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64; rv:61.0) Gecko/20
 def parser(url_page):
     """
 
-    :param url_page: id больницы
+    :param url_page: url больницы
     :return:
     """
     count = 0

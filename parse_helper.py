@@ -22,6 +22,14 @@ def get_proxy():
     auth = HTTPProxyAuth(proxy_block[2], proxy_block[3])
     return [proxies, auth]
 
+def last_year(last_year):
+    """
+
+    :param last_year: это сколько лет назад, например сейчас 2019, чтобы получить 2017, нужно передать 2
+    :return:
+    """
+    return date.today() - relativedelta(years=last_year)
+
 def last_weekday(str_month):
     """
 
@@ -73,3 +81,5 @@ def MonthRefactor(str):
         return('11')
     elif 'декабр' in str_month:
         return('12')
+
+
