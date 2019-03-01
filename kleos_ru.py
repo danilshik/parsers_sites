@@ -41,9 +41,9 @@ def parser(id, type, url_page):
         params = {'last_ids[]': comment_id_list}
         r = requests.request("GET", "https://www.kleos.ru/comment/0/operation?mode=getlist&item_id=" + str(id) + "&item_name=" + item_name + "&comment_cnt=1000000",
                              headers=headers, params=params, proxies=proxy[0], auth=proxy[1]).content
-        html = ph.get_html(r)
+        html = ph.get_html(r, 'lxml')
         json_text = json.loads(html.select_one("p").text)
-        html_json = ph.get_html(json_text["html"])
+        html_json = ph.get_html(json_text["html"], 'lxml')
         if(json_text["is_last"] == True):
             is_last = True
         items = html_json.select("body > div.comment-item")

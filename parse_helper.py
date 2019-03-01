@@ -6,8 +6,8 @@ from requests.auth import HTTPProxyAuth
 index_proxy = 0
 proxy_list = [
     "http;207.164.21.34:3128;u5aX8c;LCTkNM",
-    "http;185.233.80.187:9937;u5aX8c;LCTkNM",
-    "http;185.233.81.118:9401;u5aX8c;LCTkNM"
+    "http;185.233.81.118:9401;u5aX8c;LCTkNM",
+    "http;185.233.80.187:9937;u5aX8c;LCTkNM"
 ]
 
 def get_proxy():
@@ -52,8 +52,8 @@ def last_weekday(str_month):
         return date.today() + relativedelta(weekday=SU(-1))
 
 
-def get_html(request):
-    return BeautifulSoup(request, 'lxml')
+def get_html(request, type):
+    return BeautifulSoup(request, type)
 
 def MonthRefactor(str):
     str_month = str.lower()

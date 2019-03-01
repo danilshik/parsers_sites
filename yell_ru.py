@@ -28,7 +28,7 @@ def parser(id):
         proxy = ph.get_proxy()
         r = requests.request("GET", url_page, params=params, proxies=proxy[0], auth=proxy[1]).content
         print("Pagination", page)
-        html = ph.get_html(r)
+        html = ph.get_html(r, 'lxml')
         # print(html)
         items = html.select("div.reviews__item")
         if (len(items) == 0):

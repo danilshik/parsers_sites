@@ -18,7 +18,7 @@ def parser(url_page):
     comment_list = []
     proxy = ph.get_proxy()
     r = requests.request("GET", url_page, proxies=proxy[0], auth=proxy[1]).content
-    html = ph.get_html(r)
+    html = ph.get_html(r, 'lxml')
     items = html.select("div.comment")
     for item in items:
         count += 1

@@ -31,7 +31,7 @@ def parser(id, type, url_page):
 
         if id is None:
             r = requests.request("GET", url_page).content
-            html = ph.get_html(r)
+            html = ph.get_html(r, 'lxml')
 
             if type is "clinic":
                 id = html.select_one("input.js-clinic_id.hidden").get("value")
@@ -67,7 +67,7 @@ def parser(id, type, url_page):
                       str(id) +"&params[rate]=all&params[commentId]=&params[sort]=&params[page]=" + str(current_page)
         proxy = ph.get_proxy()
         respon = requests.request("POST", main_url, data=payload, params=query_string, proxies=proxy[0], auth=proxy[1]).json()
-        html = ph.get_html(respon["js"]["result"]["html"])
+        html = ph.get_html(respon["js"]["result"]["html"], 'lxml')
 
         if(type is "clinic"):
             items = html.select('#clinicComments > div[itemprop = "review"]')
