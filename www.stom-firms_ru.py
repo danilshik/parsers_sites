@@ -4,16 +4,15 @@ import parse_helper as ph
 import random
 import time
 from urllib.parse import urljoin
-headers = {
-    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0'
-}
+
 
 url_site = "https://www.stom-firms.ru/"
 
-def parser(url_page):
+def parser(firm_id, branch_id):
     """
 
-    :param url_page: url больницы
+    :param firm_id: Идентификатор больницы, можно взять в большинстве ссылок, например /clinics.php?i=3063&open=photos   id = 3063
+    :param branch_id: Идентификатор филиала для получения отзывов только по филиалу, Id можно найти в фильтрах, например <option value="138"></option> id = 138
     :return:
     """
     count = 0
@@ -23,15 +22,47 @@ def parser(url_page):
     comment_list = []
     page = 1
     while True:
-        url_test = url_page + "&page=" + str(page)
-        proxy = ph.get_proxy_http()
-        r = requests.request("GET", url_test, proxies=proxy[0], auth=proxy[1]).content
         headers = {
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0',
-            'Referer' : url_test
+            'Referer': 'https://www.stom-firms.ru/clinics.php?i=' + str(firm_id) + '&page=1',
+            'X-Requested-With': 'XMLHttpRequest'
         }
 
-        html = ph.get_html(r, 'lxml')
+
+        url_test = "https://www.stom-firms.ru/p_firmFeedbacks_feedbacksList_items_view"
+        proxy = ph.get_proxy_http()
+        if branch_id is not None:
+            data_post ={
+                'page': page,
+                'limit' : '20',
+                'addGroupPositive': firm_id,
+                'addGroupPositiveFirmId': firm_id,
+                'distrust[]' : ['affiliated', 'ip', 'contacts', 'rude', 'spam', 'constructive', 'non_feedback', 'client_doesnt_exist', 'resolved'],
+                'groupId' : '70',
+                'firmId' : branch_id
+
+            }
+        else:
+            print("Ололо")
+            data_post = {
+                'page' : page,
+                'limit': '20',
+                'addGroupPositive': '70',
+                'addGroupPositiveFirmId': firm_id,
+                'distrust[]': ['affiliated', 'ip', 'contacts', 'rude', 'spam', 'constructive', 'non_feedback',
+                               'client_doesnt_exist', 'resolved'],
+                'groupId' : '70'
+
+
+            }
+        r = requests.post(url_test, data=data_post, proxies=proxy[0], auth=proxy[1], headers=headers).json()
+        # headers = {
+        #     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0',
+        #     'Referer' : url_test
+        # }
+        html_json = r["html"]
+        html = ph.get_html(html_json, 'html.parser')
+        # print(html_json)
         print("Pagination:", str(page), url_test)
         # if url_page.find("vrachi"):
         #     type = "doctor"
@@ -105,4 +136,4 @@ def parser(url_page):
 
 
 if __name__ == '__main__':
-    parser("https://www.stom-firms.ru/clinics.php?i=3063")
+    parser(3063, 138)
