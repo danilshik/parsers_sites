@@ -38,7 +38,7 @@ def parser(url_page):
 
         author_name = item.select_one("span.commentsguest").text.strip()
 
-        emotion_text = item.select_one("span.commentsopinionpositive").get("title")
+        emotion_text = item.select_one("div.avatar > span").get("title")
         if (emotion_text == "Мнение положительное"):
             emotion = "positive"
             count_positive_comments += 1
@@ -88,4 +88,4 @@ def parser(url_page):
 
 if __name__ == '__main__':
     # parser("http://moszub.ru/clinics/ortodont-pro/")
-    parser("http://moszub.ru/clinics/dento-lyuks-na-amurskoy/")
+    parser("http://moszub.ru/clinics/stomatologicheskaya-poliklinika-65/")

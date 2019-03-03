@@ -1,13 +1,15 @@
 import requests
 import pprint
 import parse_helper as ph
-
+from urllib.parse import urljoin
 headers = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0'
 }
 
+url_site = "http://mne-pomoglo.ru"
 
 def parser(url_page):
+
     """
 
     :param url_page: url больницы
@@ -38,7 +40,6 @@ def parser(url_page):
 
 
             date = item.select_one("div.company-reviews-list-item-date").text.strip().split("\t")[-1]
-            print(date)
             date_block = date.split(".")
             day = date_block[0]
             month = date_block[1]
@@ -61,12 +62,14 @@ def parser(url_page):
             except:
                 emotion = None
             # # print(item)
-            response_block = item.select_one("div.company-reviews-list-item-full-link")
+            response_block = item.select_one("div.company-reviews-list-item-full-link > a").text
             # print(response_block)
-            if response_block is None:
+            if response_block == "Ответить":
                 response = "no"
             else:
                 response = "yes"
+
+            response_url = urljoin(url_site, item.select_one("div.company-reviews-list-item-full-link > a").get("href"))
             text = item.select_one("div.company-reviews-list-item-text-message").text.strip()
 
             #Конструкция для проверки первого сообщений на предудщей страницы с этой
@@ -85,7 +88,7 @@ def parser(url_page):
                 'emotion': emotion,
                 'text': text,
                 'response': response,
-                'url': url,
+                'url': response_url,
                 'hash': ph.get_md5_hash(author_name + date + text)
             }
             print(comment)
