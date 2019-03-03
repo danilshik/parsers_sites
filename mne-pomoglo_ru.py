@@ -26,7 +26,7 @@ def parser(url_page):
     last = None
     page = 1
     while is_pagination:
-        proxy = ph.get_proxy()
+        proxy = ph.get_proxy_https()
         r = requests.request("GET", url_page + "?page=" + str(page), proxies=proxy[0], auth=proxy[1]).content
         html = ph.get_html(r, 'html.parser')
         print("Pagination:", str(page))

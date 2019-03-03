@@ -16,7 +16,7 @@ def parser(url_page):
     count = 0
 
     comment_list = []
-    proxy = ph.get_proxy()
+    proxy = ph.get_proxy_http()
     r = requests.request("GET", url_page, proxies=proxy[0], auth=proxy[1]).content
     html = ph.get_html(r, 'lxml')
     items = html.select("ul.doc-main__feedbacks__list > li")

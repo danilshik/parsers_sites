@@ -18,7 +18,7 @@ def parser(id, type, url_page):
     count_negative_comments = 0
     count_neitral_comments = 0
     comment_list = []
-    proxy = ph.get_proxy()
+    proxy = ph.get_proxy_http()
     items_list = []
     if type is "doctor":
 

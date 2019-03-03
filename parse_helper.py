@@ -5,17 +5,35 @@ from bs4 import BeautifulSoup
 from requests.auth import HTTPProxyAuth
 index_proxy = 0
 import hashlib
-proxy_list = [
+proxy_list_http = [
+    "http;207.164.21.34:3128;u5aX8c;LCTkNM",
+    "http;185.233.81.118:9401;u5aX8c;LCTkNM",
+    "http;185.233.80.187:9937;u5aX8c;LCTkNM"
+]
+
+proxy_list_https = [
     "https;207.164.21.34:3128;u5aX8c;LCTkNM",
     "https;185.233.81.118:9401;u5aX8c;LCTkNM",
     "https;185.233.80.187:9937;u5aX8c;LCTkNM"
 ]
 
-def get_proxy():
+def get_proxy_http():
     global index_proxy
-    proxy = proxy_list[index_proxy]
+    proxy = proxy_list_http[index_proxy]
     index_proxy += 1
-    if(index_proxy == len(proxy_list)):
+    if(index_proxy == len(proxy_list_http)):
+        index_proxy = 0
+
+    proxy_block = proxy.split(";")
+    proxies = {proxy_block[0]: proxy_block[1]}
+    auth = HTTPProxyAuth(proxy_block[2], proxy_block[3])
+    return [proxies, auth]
+
+def get_proxy_https():
+    global index_proxy
+    proxy = proxy_list_https[index_proxy]
+    index_proxy += 1
+    if(index_proxy == len(proxy_list_https)):
         index_proxy = 0
 
     proxy_block = proxy.split(";")

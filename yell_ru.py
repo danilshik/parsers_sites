@@ -25,7 +25,7 @@ def parser(id):
             "page" : page,
             "sort" : "recent"
         }
-        proxy = ph.get_proxy()
+        proxy = ph.get_proxy_http()
         r = requests.request("GET", url_page, params=params, proxies=proxy[0], auth=proxy[1]).content
         print("Pagination", page)
         html = ph.get_html(r, 'lxml')

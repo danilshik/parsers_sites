@@ -21,7 +21,7 @@ def parser(url_main):
     page = 2
     url_page = url_main
     while True:
-        proxy = ph.get_proxy()
+        proxy = ph.get_proxy_https()
         "http://moszub.ru/clinics/stomatologicheskaya-poliklinika-65/?table=clinics&id=356&cp=1"
         r = requests.request("GET", url_page, proxies=proxy[0], auth=proxy[1]).content
 
