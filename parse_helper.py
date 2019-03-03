@@ -6,9 +6,9 @@ from requests.auth import HTTPProxyAuth
 index_proxy = 0
 import hashlib
 proxy_list = [
-    "http;207.164.21.34:3128;u5aX8c;LCTkNM",
-    "http;185.233.81.118:9401;u5aX8c;LCTkNM",
-    "http;185.233.80.187:9937;u5aX8c;LCTkNM"
+    "https;207.164.21.34:3128;u5aX8c;LCTkNM",
+    "https;185.233.81.118:9401;u5aX8c;LCTkNM",
+    "https;185.233.80.187:9937;u5aX8c;LCTkNM"
 ]
 
 def get_proxy():
