@@ -3,10 +3,12 @@ import pprint
 import parse_helper as ph
 import random
 import time
-
+from urllib.parse import urljoin
 headers = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0'
 }
+
+url_site = "https://www.stom-firms.ru/"
 
 def parser(url_page):
     """
@@ -71,8 +73,7 @@ def parser(url_page):
                 response = "yes"
             text = item.select_one("div.text").text.strip()
 
-            url = url_page
-
+            url = urljoin(url_site, item.select_one('a.avatar').get("href"))
             comment = {
                 'author_name': author_name,
                 'date': date,
