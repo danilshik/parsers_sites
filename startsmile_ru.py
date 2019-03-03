@@ -61,7 +61,8 @@ def parser(url_page):
             'emotion': emotion,
             'text': text,
             'response': response,
-            'url': url
+            'url': url,
+            'hash': ph.get_md5_hash(author_name + date + text)
         }
         print(comment)
         comment_list.append(comment)

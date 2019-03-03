@@ -4,6 +4,7 @@ from datetime import *
 from bs4 import BeautifulSoup
 from requests.auth import HTTPProxyAuth
 index_proxy = 0
+import hashlib
 proxy_list = [
     "http;207.164.21.34:3128;u5aX8c;LCTkNM",
     "http;185.233.81.118:9401;u5aX8c;LCTkNM",
@@ -82,4 +83,6 @@ def MonthRefactor(str):
     elif 'декабр' in str_month:
         return('12')
 
-
+def get_md5_hash(text):
+    m = hashlib.md5(text.encode('utf-8')).hexdigest()
+    return m
