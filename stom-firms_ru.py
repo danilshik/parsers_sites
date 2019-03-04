@@ -43,7 +43,6 @@ def parser(firm_id, branch_id):
 
             }
         else:
-            print("Ололо")
             data_post = {
                 'page' : page,
                 'limit': '20',
