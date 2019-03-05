@@ -7,7 +7,7 @@ import parse_helper as ph
 headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64; rv:61.0) Gecko/20100101 Firefox/61.0'}
 
 
-def parser(id, type, url_page):
+def kleos_ru(id, type, url_page):
     """
 
     :param id: id специалиста или организации. Можно взять в элементе div с классом star-rating-svg в параметре data-org-id
@@ -112,4 +112,4 @@ def parser(id, type, url_page):
 
 
 if __name__ == '__main__':
-    parser(7493, "clinic", "url")
+    kleos_ru(7493, "clinic", "url")

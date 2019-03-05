@@ -4,7 +4,7 @@ import parse_helper as ph
 import random
 import time
 headers = {'User-Agent': 'Mozilla/5.0 (compatible; U; ABrowse 0.6; Syllable) AppleWebKit/420+ (KHTML, like Gecko)'}
-def parser(id, type, url_page):
+def prodoctorov_ru(id, type, url_page):
     """
 
     :param id: ID у больницы можно взять в ссылке, например https://prodoctorov.ru/moskva/lpu/9155-klinika-sovremennoy-mediciny/otzivi/, Id =9155; для докторов Id не трубуется
@@ -134,5 +134,5 @@ def parser(id, type, url_page):
 
 
 if __name__ == '__main__':
-    parser(None, "doctor","https://prodoctorov.ru/moskva/vrach/212389-malahov/")
-    # parser(9155, "clinic","https://prodoctorov.ru/moskva/lpu/9155-klinika-sovremennoy-mediciny/otzivi/")
+    prodoctorov_ru(None, "doctor","https://prodoctorov.ru/moskva/vrach/212389-malahov/")
+    # prodoctorov_ru(9155, "clinic","https://prodoctorov.ru/moskva/lpu/9155-klinika-sovremennoy-mediciny/otzivi/")

@@ -5,7 +5,7 @@ import parse_helper as ph
 headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64; rv:61.0) Gecko/20100101 Firefox/61.0'}
 
 
-def parser(url_page):
+def yellmed_ru(url_page):
     """
 
     :param url_page: url больницы или врача
@@ -147,6 +147,6 @@ def parser(url_page):
 
 
 if __name__ == '__main__':
-    # parser("https://yellmed.ru/medicinskie-centry/klinika-k-31")
-    parser("https://yellmed.ru/vrachi/Kremnev_Uriy")
-    # parser("https://yellmed.ru/vrachi/Goludeva_Galina")
+    yellmed_ru("https://yellmed.ru/medicinskie-centry/klinika-k-31")
+    yellmed_ru("https://yellmed.ru/vrachi/Kremnev_Uriy")
+    yellmed_ru("https://yellmed.ru/vrachi/Goludeva_Galina")

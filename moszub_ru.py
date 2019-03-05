@@ -7,7 +7,7 @@ headers = {
 }
 
 
-def parser(url_main):
+def moszub_ru(url_main):
     """
 
     :param url_page: url больницы
@@ -98,5 +98,5 @@ def parser(url_main):
 
 
 if __name__ == '__main__':
-    # parser("http://moszub.ru/clinics/ortodont-pro/")
-    parser("http://moszub.ru/clinics/stomatologicheskaya-poliklinika-65/")
+    # moszub_ru("http://moszub.ru/clinics/ortodont-pro/")
+    moszub_ru("http://moszub.ru/clinics/stomatologicheskaya-poliklinika-65/")

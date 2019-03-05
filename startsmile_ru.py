@@ -4,7 +4,7 @@ import parse_helper as ph
 headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64; rv:61.0) Gecko/20100101 Firefox/61.0'}
 
 
-def parser(url_page):
+def startsmile_ru(url_page):
     """
     Парсинг производится по HTML.
     :param url_page: ссылка на страницу или клинику
@@ -81,4 +81,4 @@ def parser(url_page):
     return main_dict
 
 if __name__ == '__main__':
-    parser("https://www.startsmile.ru/stomatologi/akhtanin_aleksandr_pavlovich.html")
+    startsmile_ru("https://www.startsmile.ru/stomatologi/akhtanin_aleksandr_pavlovich.html")

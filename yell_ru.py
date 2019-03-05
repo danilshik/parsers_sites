@@ -5,7 +5,7 @@ import parse_helper as ph
 headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64; rv:61.0) Gecko/20100101 Firefox/61.0'}
 
 
-def parser(id):
+def yell_ru(id):
     """
 
     :param id: идентификатор клиники, парсинг происходит по разбору Ajax запросу, можно вытащить из url, например
@@ -105,4 +105,4 @@ def parser(id):
 
 
 if __name__ == '__main__':
-    parser(8980641)
+    yell_ru(8980641)

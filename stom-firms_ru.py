@@ -8,7 +8,7 @@ from urllib.parse import urljoin
 
 url_site = "https://www.stom-firms.ru/"
 
-def parser(firm_id, branch_id):
+def stom_firms_ru(firm_id, branch_id):
     """
 
     :param firm_id: Идентификатор больницы, можно взять в большинстве ссылок, например /clinics.php?i=3063&open=photos   id = 3063
@@ -135,4 +135,4 @@ def parser(firm_id, branch_id):
 
 
 if __name__ == '__main__':
-    parser(3063, 138)
+    stom_firms_ru(3063, 138)

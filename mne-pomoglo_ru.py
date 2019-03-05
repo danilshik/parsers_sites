@@ -8,7 +8,7 @@ headers = {
 
 url_site = "http://mne-pomoglo.ru"
 
-def parser(url_page):
+def mne_pomoglo_ru(url_page):
 
     """
 
@@ -113,4 +113,4 @@ def parser(url_page):
 
 
 if __name__ == '__main__':
-    parser("http://mne-pomoglo.ru/invitro-medicinskiy-centr")
+    mne_pomoglo_ru("http://mne-pomoglo.ru/invitro-medicinskiy-centr")

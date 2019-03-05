@@ -7,7 +7,7 @@ import parse_helper as ph
 headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64; rv:61.0) Gecko/20100101 Firefox/61.0',
            'X-Requested-With': 'XMLHttpRequest'}
 
-def parser(url_main, id):
+def zoon_ru(url_main, id):
     """
 
     :param url_main: Ссылка на страницу
@@ -109,5 +109,5 @@ def parser(url_main, id):
 
 
 if __name__ == '__main__':
-    # parser("https://spb.zoon.ru/medical/stomatologiya_stellit_na_ulitse_lyoni_golikova/?zutm_source=zbd&zutm_medium=none", "503c4c343c72dd7d70000024")
-    parser("https://spb.zoon.ru/medical/klinika_kosmetologii_i_stomatologii_mediestetik_comfort_na_leninskom_prospekte/", "50230d843c72dd4077000000")
+    # zoon_ru("https://spb.zoon.ru/medical/stomatologiya_stellit_na_ulitse_lyoni_golikova/?zutm_source=zbd&zutm_medium=none", "503c4c343c72dd7d70000024")
+    zoon_ru("https://spb.zoon.ru/medical/klinika_kosmetologii_i_stomatologii_mediestetik_comfort_na_leninskom_prospekte/", "50230d843c72dd4077000000")
