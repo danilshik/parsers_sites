@@ -12,7 +12,9 @@ headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64; rv:61.0) Gecko/20
 def spr_ru(id):
     """
 
-    :param id: id больницы, можно взять из ссылки
+    :param id: id больницы, можно взять из ссылки у сетей и В кнопке оставить отзыв в методе onclick
+    у одиночных поликлиник, например document.location.href='//www.spr.ru/forum_adding.php?id_top=11&id_firm_forum=107473'
+    id = 107473
     :return:
     """
 
@@ -121,4 +123,4 @@ def spr_ru(id):
 
 
 if __name__ == '__main__':
-    spr_ru(1111439)
+    spr_ru(107473)
