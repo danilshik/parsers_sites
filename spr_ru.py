@@ -44,7 +44,7 @@ def spr_ru(id):
             r_text = r_text.replace('&gt;', '>')
             r_text = r_text.replace('&quot;', '"')
             html = ph.get_html(r_text, 'lxml')
-            
+
             href_list = []
             a_list = html.select("a.zagolovok")
             if len(a_list) == 0:
@@ -101,6 +101,7 @@ def spr_ru(id):
                 }
                 print(comment)
                 comment_list.append(comment)
+                count += 1
             page_count += 20
     statistic = {
         'count': count,
