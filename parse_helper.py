@@ -41,6 +41,13 @@ def get_proxy_https():
     auth = HTTPProxyAuth(proxy_block[2], proxy_block[3])
     return [proxies, auth]
 
+def clear_specials_symbols(text):
+    text = text.replace("\n", "")
+    text = text.replace("\t", "")
+    text = text.replace("\r", "")
+    return text
+
+
 def last_year(last_year):
     """
 

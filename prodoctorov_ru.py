@@ -102,7 +102,7 @@ def prodoctorov_ru(id, type, url_page):
         except:
             text_minus = ""
 
-        text = text_plus + text_minus + text_comment + text_comment2
+        text = ph.clear_specials_symbols(text_plus + text_minus + text_comment + text_comment2)
 
         url = url_page
         comment = {

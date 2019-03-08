@@ -79,7 +79,7 @@ def kleos_ru(id, type, url_page):
             except:
                 emotion = None
 
-            text = item.select_one("div.comment-text.padding-coment").text.strip()
+            text = ph.clear_specials_symbols(item.select_one("div.comment-text.padding-coment").text.strip())
 
 
             comment = {

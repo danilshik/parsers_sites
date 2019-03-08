@@ -52,7 +52,7 @@ def startsmile_ru(url_page):
         except:
             response = "no"
 
-        text = item.select_one("div.doc-main__feedbacks__item-text.description").text.strip()
+        ph.clear_specials_symbols(text = item.select_one("div.doc-main__feedbacks__item-text.description").text.strip())
         url = url_page
 
         comment = {

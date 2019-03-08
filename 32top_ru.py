@@ -112,7 +112,7 @@ def parser(id, type, url_page):
                 count_negative_comments += 1
             elif emotion == "neutral":
                 count_neitral_comments += 1
-            text = item.find("div", "comment-text").text.strip()
+            text = ph.clear_specials_symbols(item.find("div", "comment-text").text.strip())
 
             url = urljoin(url_site, item.find("link").get("href"))
             #Количество комментариев следующего уровня

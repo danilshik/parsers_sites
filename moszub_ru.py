@@ -66,7 +66,7 @@ def moszub_ru(url_main):
             #     response = "yes"
             #
             response = "no"
-            text = item.select_one("div.commentstext").text.strip()
+            text = ph.clear_specials_symbols(item.select_one("div.commentstext").text.strip())
             url = url_page
 
             comment = {

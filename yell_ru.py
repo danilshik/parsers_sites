@@ -70,7 +70,7 @@ def yell_ru(id):
             else:
                 response = "yes"
 
-            text = item.select_one("div.reviews__item-text").text.strip()
+            text = ph.clear_specials_symbols(item.select_one("div.reviews__item-text").text.strip())
             url = item.select_one("div.share").get("data-url")
 
             comment = {

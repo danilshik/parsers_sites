@@ -62,7 +62,7 @@ def yellmed_ru(url_page):
             #     response = "yes"
             #
             response = "no"
-            text = item.select_one("div.comment__text").text.strip()
+            text = ph.clear_specials_symbols(item.select_one("div.comment__text").text.strip())
             url = url_page
 
             comment = {

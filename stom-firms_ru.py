@@ -101,7 +101,7 @@ def stom_firms_ru(firm_id, branch_id):
                 response = "no"
             else:
                 response = "yes"
-            text = item.select_one("div.text").text.strip()
+            text = ph.clear_specials_symbols(item.select_one("div.text").text.strip())
 
             url = urljoin(url_site, item.select_one('a.avatar').get("href"))
             comment = {

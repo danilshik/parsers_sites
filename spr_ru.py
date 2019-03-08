@@ -72,7 +72,7 @@ def spr_ru(id):
                     emotion = " neutral"
                     count_neitral_comments += 1
 
-                text = html_comment.select_one("#leftside > span").text.strip()
+                text = ph.clear_specials_symbols(html_comment.select_one("#leftside > span").text.strip())
                 response_text = html_comment.select_one('#leftside > table[style="width:100%;"]')
                 if response_text is None:
                     response = "no"

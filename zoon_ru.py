@@ -78,7 +78,7 @@ def zoon_ru(url_main, id):
             response = "yes"
 
         text = item.select_one("div.js-comment-short-text").text.strip()
-        text = text.replace("\xa0", " ")
+        text = ph.clear_specials_symbols(text.replace("\xa0", " "))
 
         comment = {
             'author_name': author_name,
