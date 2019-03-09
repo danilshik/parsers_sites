@@ -40,11 +40,11 @@ def moscow_stomatologija_su(url_page):
                     author_name = item.select_one('div.otziv_body > a').text.strip()
         try:
             emotion_text = float(item.select_one("div.vote_number").text.strip())
-            if (emotion_text >= 4.5):
+            if (emotion_text >= 4):
                 emotion = "positive"
                 count_positive_comments += 1
 
-            elif (emotion_text <= 2):
+            elif (emotion_text < 3):
                 emotion = "negative"
                 count_negative_comments += 1
             else:
@@ -92,5 +92,5 @@ def moscow_stomatologija_su(url_page):
 
 
 if __name__ == '__main__':
-    moscow_stomatologija_su("http://moscow.stomatologija.su/klinika/stomatologiya-mendeleev")
-    # moscow_stomatologija_su("http://moscow.stomatologija.su/doctor/koryakin-artem-sergeevich")
+    # moscow_stomatologija_su("http://moscow.stomatologija.su/klinika/stomatologiya-mendeleev")
+    moscow_stomatologija_su("http://moscow.stomatologija.su/doctor/koryakin-artem-sergeevich")
