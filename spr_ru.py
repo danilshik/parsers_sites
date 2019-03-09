@@ -60,17 +60,24 @@ def spr_ru(id):
                 time.sleep(random_number)
                 r = requests.get(href, proxies=proxy[0], auth=proxy[1]).content
                 html_comment = ph.get_html(r,  "html.parser")
-                img = html_comment.select_one("#leftside > img")
-                emotion_text = img.get("title")
-                if emotion_text == "Это положительный отзыв":
-                    emotion = "positive"
-                    count_positive_comments += 1
-                elif emotion_text == "Это отрицательный отзыв":
-                    emotion = "negative"
-                    count_negative_comments += 1
-                else:
-                    emotion = " neutral"
-                    count_neitral_comments += 1
+                imgs = html_comment.select("#leftside > img")
+                for img in imgs:
+                    emotion_text = img.get("title")
+                    if(emotion_text is None):
+                        continue
+                    else:
+                        if emotion_text == "Это положительный отзыв":
+                            emotion = "positive"
+                            count_positive_comments += 1
+                            break
+                        elif emotion_text == "Это отрицательный отзыв":
+                            emotion = "negative"
+                            count_negative_comments += 1
+                            break
+                        else:
+                            emotion = " neutral"
+                            count_neitral_comments += 1
+                            break
 
                 text = ph.clear_specials_symbols(html_comment.select_one("#leftside > span").text.strip())
                 response_text = html_comment.select_one('#leftside > table[style="width:100%;"]')
@@ -123,4 +130,4 @@ def spr_ru(id):
 
 
 if __name__ == '__main__':
-    spr_ru(107473)
+    spr_ru(781085)
