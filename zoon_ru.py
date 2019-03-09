@@ -58,16 +58,16 @@ def zoon_ru(url_main, id):
             emotion_text = block_data_emotion.select('span.star-item > span[style="width: 100%; display: block;"]')
             if(len(emotion_text) == 0):
                 emotion = None
-            elif (len(emotion_text) >= 4.5):
-                emotion = "positive"
-                count_positive_comments += 1
+                if (emotion_text >= 4):
+                    emotion = "positive"
+                    count_positive_comments += 1
 
-            elif((len(emotion_text) <= 2) and (len(emotion_text) != 0)):
-                emotion = "negative"
-                count_negative_comments += 1
-            else:
-                emotion = "neutral"
-                count_neitral_comments += 1
+                elif (emotion_text < 3):
+                    emotion = "negative"
+                    count_negative_comments += 1
+                else:
+                    emotion = "neutral"
+                    count_neitral_comments += 1
         except Exception as e:
             emotion = None
             print(e)

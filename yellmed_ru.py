@@ -40,11 +40,11 @@ def yellmed_ru(url_page):
             author_name = item.select_one("div.comment__author-name").text.strip()
             try:
                 emotion_text = float(item.select_one("div.rating").get("data-rating"))
-                if (emotion_text >= 4.5):
+                if (emotion_text >= 4):
                     emotion = "positive"
                     count_positive_comments += 1
 
-                elif (emotion_text <= 2):
+                elif (emotion_text < 3):
                     emotion = "negative"
                     count_negative_comments += 1
                 else:

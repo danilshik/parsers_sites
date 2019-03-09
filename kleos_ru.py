@@ -66,11 +66,11 @@ def kleos_ru(id, type, url_page):
 
             try:
                 emotion_text = float(left_block.select_one("div.star-rating-svg").get("data-initial-rating"))
-                if(emotion_text >= 4.5):
+                if(emotion_text >= 4):
                     emotion = "positive"
                     count_positive_comments += 1
 
-                elif(emotion_text <= 2):
+                elif(emotion_text < 3):
                     emotion = "negative"
                     count_negative_comments += 1
                 else:

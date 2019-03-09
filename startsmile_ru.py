@@ -33,11 +33,11 @@ def startsmile_ru(url_page):
 
         try:
             emotion_text = float(item.select_one("div.best__c-b-r-count.value").text.strip())
-            if (emotion_text >= 4.5):
+            if (emotion_text >= 4):
                 emotion = "positive"
                 count_positive_comments += 1
 
-            elif (emotion_text <= 2):
+            elif (emotion_text < 3):
                 emotion = "negative"
                 count_negative_comments += 1
             else:
