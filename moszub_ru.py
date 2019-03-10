@@ -18,17 +18,19 @@ def moszub_ru(url_main):
     count_negative_comments = 0
     count_neitral_comments = 0
     comment_list = []
-    page = 2
-    url_page = url_main
+    page = 1
+    proxy = ph.get_proxy_https()
+    r = requests.request("GET", url_main, proxies=proxy[0], auth=proxy[1]).content
+    html = ph.get_html(r, 'html.parser')
+    id = html.select_one("a.clinicorder").get("clinicid")
     while True:
         proxy = ph.get_proxy_https()
-        "http://moszub.ru/clinics/stomatologicheskaya-poliklinika-65/?table=clinics&id=356&cp=1"
+        url_page = url_main + "?table=clinics&id=" + id + "&cp=" + str(page)
         r = requests.request("GET", url_page, proxies=proxy[0], auth=proxy[1]).content
-
         html = ph.get_html(r, 'html.parser')
 
-        id = html.select_one("a.clinicorder").get("clinicid")
-        url_page = url_main + "?table=clinics&id=" + id + "&cp=" + str(page)
+
+
 
         # if url_page.find("vrachi"):
         #     type = "doctor"
@@ -39,7 +41,7 @@ def moszub_ru(url_main):
         if(len(items) == 0):
             break
         for item in items:
-            count += 1
+
             date = item.select_one("div.commentsdate").text.strip()
             date_block = date.split(".")
             day = date_block[0]
@@ -79,6 +81,7 @@ def moszub_ru(url_main):
                 'hash': ph.get_md5_hash(author_name + date + text)
             }
             print(comment)
+            count += 1
             comment_list.append(comment)
         page += 1
     statistic = {
