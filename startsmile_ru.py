@@ -45,11 +45,11 @@ def startsmile_ru(url_page):
         except Exception as e:
             emotion = None
             print(e)
-        try:
-            subcomments = html.select_one("div.comment-box")
-            response = "yes"
-        except:
+        subcomments = item.select("a.doc-main__feedbacks__item-reply-btn")
+        if (len(subcomments) == 1):
             response = "no"
+        elif(len(subcomments) > 1):
+            response = "yes"
 
         text = ph.clear_specials_symbols(text = item.select_one("div.doc-main__feedbacks__item-text.description").text.strip())
         url = url_page
@@ -80,4 +80,4 @@ def startsmile_ru(url_page):
     return main_dict
 
 if __name__ == '__main__':
-    startsmile_ru("https://www.startsmile.ru/stomatologi/akhtanin_aleksandr_pavlovich.html")
+    startsmile_ru("https://www.startsmile.ru/stomatologii/dantistoff-khoroshevskoe-shosse.html")
