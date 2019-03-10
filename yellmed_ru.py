@@ -19,7 +19,7 @@ def yellmed_ru(url_page):
     proxy = ph.get_proxy_http()
     r = requests.request("GET", url_page, proxies=proxy[0], auth=proxy[1]).content
     html = ph.get_html(r, 'lxml')
-    if url_page.find("vrachi"):
+    if url_page.find("vrachi") != -1:
         type = "doctor"
     else:
         type = "clinic"
@@ -148,5 +148,5 @@ def yellmed_ru(url_page):
 
 if __name__ == '__main__':
     yellmed_ru("https://yellmed.ru/medicinskie-centry/klinika-k-31")
-    yellmed_ru("https://yellmed.ru/vrachi/Kremnev_Uriy")
-    yellmed_ru("https://yellmed.ru/vrachi/Goludeva_Galina")
+    # yellmed_ru("https://yellmed.ru/vrachi/Kremnev_Uriy")
+    # yellmed_ru("https://yellmed.ru/vrachi/Goludeva_Galina")
