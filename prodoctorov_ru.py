@@ -134,5 +134,5 @@ def prodoctorov_ru(id, type, url_page):
 
 
 if __name__ == '__main__':
-    prodoctorov_ru(None, "doctor","https://prodoctorov.ru/moskva/vrach/212389-malahov/")
+    prodoctorov_ru(None, "clinic","https://prodoctorov.ru/moskva/lpu/21042-hospis-2/")
     # prodoctorov_ru(9155, "clinic","https://prodoctorov.ru/moskva/lpu/9155-klinika-sovremennoy-mediciny/otzivi/")

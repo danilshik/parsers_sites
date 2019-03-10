@@ -42,7 +42,7 @@ def get_proxy_https():
     return [proxies, auth]
 
 def clear_specials_symbols(text):
-    text = text.replace("\n", "")
+    text = text.replace("\n", " ")
     text = text.replace("\t", "")
     text = text.replace("\r", "")
     return text
