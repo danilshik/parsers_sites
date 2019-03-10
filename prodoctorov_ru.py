@@ -31,6 +31,7 @@ def prodoctorov_ru(id, type, url_page):
 
     elif type is "clinic":
         #Получение первых 20 отзывов
+        url_page = url_page + "otzivi/"
         r = requests.request("GET", url_page, proxies=proxy[0], auth=proxy[1]).content
         html = ph.get_html(r, 'html.parser')
         items = html.select('table.rates > tr')
@@ -134,5 +135,5 @@ def prodoctorov_ru(id, type, url_page):
 
 
 if __name__ == '__main__':
-    prodoctorov_ru(None, "clinic","https://prodoctorov.ru/moskva/lpu/21042-hospis-2/")
+    prodoctorov_ru(21042, "clinic", "https://prodoctorov.ru/moskva/lpu/21042-hospis-2/")
     # prodoctorov_ru(9155, "clinic","https://prodoctorov.ru/moskva/lpu/9155-klinika-sovremennoy-mediciny/otzivi/")
