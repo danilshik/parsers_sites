@@ -30,7 +30,6 @@ def startsmile_ru(url_page):
         date = year + "-" + month + "-" + day
 
         author_name = item.select_one("a.permalink").text.strip()
-
         try:
             emotion_text = float(item.select_one("div.best__c-b-r-count.value").text.strip())
             if (emotion_text >= 4):
@@ -52,7 +51,7 @@ def startsmile_ru(url_page):
         except:
             response = "no"
 
-        ph.clear_specials_symbols(text = item.select_one("div.doc-main__feedbacks__item-text.description").text.strip())
+        text = ph.clear_specials_symbols(text = item.select_one("div.doc-main__feedbacks__item-text.description").text.strip())
         url = url_page
 
         comment = {
