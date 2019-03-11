@@ -93,11 +93,11 @@ def yellmed_ru(url_page):
             author_name = item.select_one('span[itemprop="name"]').text.strip()
             try:
                 emotion_text = float(item.select_one("div.rating").get("data-rating"))
-                if (emotion_text >= 4.5):
+                if (emotion_text >= 4):
                     emotion = "positive"
                     count_positive_comments += 1
 
-                elif (emotion_text <= 2):
+                elif (emotion_text < 3):
                     emotion = "negative"
                     count_negative_comments += 1
                 else:
@@ -147,6 +147,7 @@ def yellmed_ru(url_page):
 
 
 if __name__ == '__main__':
-    yellmed_ru("https://yellmed.ru/medicinskie-centry/klinika-k-31")
+    # yellmed_ru("https://yellmed.ru/medicinskie-centry/klinika-k-31")
+    yellmed_ru("https://yellmed.ru/vrachi/Kim_Veronika")
     # yellmed_ru("https://yellmed.ru/vrachi/Kremnev_Uriy")
     # yellmed_ru("https://yellmed.ru/vrachi/Goludeva_Galina")
