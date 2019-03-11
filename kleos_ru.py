@@ -81,14 +81,14 @@ def kleos_ru(id, type, url_page):
 
             text = ph.clear_specials_symbols(item.select_one("div.comment-text.padding-coment").text.strip())
 
-
+            id_comment = item.select("div.padding-coment.right-link.hove_thre > a")[-1].get("href")
             comment = {
                 'author_name': author_name,
                 'date': date,
                 'emotion': emotion,
                 'text': text,
                 'response': response,
-                'url': url_page,
+                'url': url_page + id_comment,
                 'hash': ph.get_md5_hash(author_name + date + text)
             }
             print(comment)
@@ -112,4 +112,4 @@ def kleos_ru(id, type, url_page):
 
 
 if __name__ == '__main__':
-    kleos_ru(7493, "clinic", "url")
+    kleos_ru(29998, "doctor", "https://www.kleos.ru/cosmetology/cosmetolog-samborskaya-mariya-dmitrievna/")
