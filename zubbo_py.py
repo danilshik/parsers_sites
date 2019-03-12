@@ -1,9 +1,6 @@
 import requests
 import pprint
 import parse_helper as ph
-import random
-import time
-from urllib.parse import urljoin
 headers = {
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0'
         }
@@ -23,15 +20,7 @@ def zubbo_ru(url_page):
 
     items = html.select("div.fos_comment_thread_comments > div")
     for index, item in enumerate(items):
-        date = item.select_one("div.metadata").text.strip()
-        index = date.find(",")
-        date = date[index:].split(" ")
-        day = date[1]
-        if len(day) == 1:
-            day = "0" + day
-        month = ph.MonthRefactor(date[2][:-1])
-        year = "2018"
-        date = year + "-" + month + "-" + day
+        date = None
 
         author_name = item.select_one("strong.author_name").text.strip()
         emotion = None
@@ -50,7 +39,7 @@ def zubbo_ru(url_page):
             'text': text,
             'response': response,
             'url': url,
-            'hash': ph.get_md5_hash(author_name + date + text)
+            'hash': ph.get_md5_hash(author_name + text)
         }
         print(comment)
         count += 1
