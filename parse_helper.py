@@ -45,6 +45,7 @@ def clear_specials_symbols(text):
     text = text.replace("\n", " ")
     text = text.replace("\t", "")
     text = text.replace("\r", "")
+    text = text.replace("\\", "")
     return text
 
 
