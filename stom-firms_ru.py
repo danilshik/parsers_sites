@@ -6,7 +6,7 @@ import time
 from urllib.parse import urljoin
 
 
-url_site = "https://www.stom-firms.ru/"
+url_site = "https://msk.stom-firms.ru/"
 
 def stom_firms_ru(firm_id, branch_id):
     """
@@ -24,12 +24,12 @@ def stom_firms_ru(firm_id, branch_id):
     while True:
         headers = {
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0',
-            'Referer': 'https://www.stom-firms.ru/clinics.php?i=' + str(firm_id) + '&page=1',
+            'Referer': 'https://www.stom-firms.ru/clinics.php?i=' + str(firm_id) + '&page=' + str(page),
             'X-Requested-With': 'XMLHttpRequest'
         }
 
 
-        url_test = "https://www.stom-firms.ru/p_firmFeedbacks_feedbacksList_items_view"
+        url_test = "https://msk.stom-firms.ru/p_firmFeedbacks_feedbacksList_items_view"
         proxy = ph.get_proxy_http()
         if branch_id is not None:
             data_post ={
@@ -135,4 +135,4 @@ def stom_firms_ru(firm_id, branch_id):
 
 
 if __name__ == '__main__':
-    stom_firms_ru(3063, 138)
+    stom_firms_ru(911, None)
