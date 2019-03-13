@@ -27,15 +27,12 @@ def yellmed_ru(url_page):
         items = html.select("div.comment")
         for item in items:
             count += 1
-            try:
-                date = item.select_one("div.comment__date").text.strip()
-                date_block = date.split(" ")
-                day = date_block[0]
-                month = ph.MonthRefactor(date_block[1])
-                year = date_block[2]
-                date = year + "-" + month + "-" + day
-            except:
-                date = None
+            date = item.select_one("div.comment__date").text.strip()
+            date_block = date.split(" ")
+            day = date_block[0]
+            month = ph.MonthRefactor(date_block[1])
+            year = date_block[2]
+            date = year + "-" + month + "-" + day
 
             author_name = item.select_one("div.comment__author-name").text.strip()
             try:
@@ -52,7 +49,6 @@ def yellmed_ru(url_page):
                     count_neitral_comments += 1
             except Exception as e:
                 emotion = None
-                print(e)
             # # print(item)
             # response_block = item.select_one("div.replies__item-text")
             # # print(response_block)
@@ -71,7 +67,8 @@ def yellmed_ru(url_page):
                 'emotion': emotion,
                 'text': text,
                 'response': response,
-                'url': url
+                'url': url,
+                'hash': ph.get_md5_hash(author_name + date + text)
             }
             print(comment)
             comment_list.append(comment)
@@ -80,15 +77,12 @@ def yellmed_ru(url_page):
         items = html.select("div.doctor-reviews > div.doctor-reviews__item")
         for item in items:
             count += 1
-            try:
-                date = item.select_one("div.doctor-reviews__publ-time").text.strip()
-                date_block = date.split(" ")
-                day = date_block[0]
-                month = ph.MonthRefactor(date_block[1])
-                year = date_block[2]
-                date = year + "-" + month + "-" + day
-            except:
-                date = None
+            date = item.select_one("div.doctor-reviews__publ-time").text.strip()
+            date_block = date.split(" ")
+            day = date_block[0]
+            month = ph.MonthRefactor(date_block[1])
+            year = date_block[2]
+            date = year + "-" + month + "-" + day
             # print(item)
             author_name = item.select_one('span[itemprop="name"]').text.strip()
             try:
@@ -105,7 +99,6 @@ def yellmed_ru(url_page):
                     count_neitral_comments += 1
             except Exception as e:
                 emotion = None
-                print(e)
             # # print(item)
             # response_block = item.select_one("div.replies__item-text")
             # # print(response_block)
@@ -147,7 +140,7 @@ def yellmed_ru(url_page):
 
 
 if __name__ == '__main__':
-    # yellmed_ru("https://yellmed.ru/medicinskie-centry/klinika-k-31")
-    yellmed_ru("https://yellmed.ru/vrachi/Kim_Veronika")
+    yellmed_ru("https://yellmed.ru/medicinskie-centry/klinika-k-31")
+    # yellmed_ru("https://yellmed.ru/vrachi/Kim_Veronika")
     # yellmed_ru("https://yellmed.ru/vrachi/Kremnev_Uriy")
     # yellmed_ru("https://yellmed.ru/vrachi/Goludeva_Galina")
