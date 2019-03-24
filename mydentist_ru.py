@@ -27,18 +27,20 @@ def mydentist_ru(url_page):
         date = year + "-" + month + "-" + day
     #
         author_name = item.select_one("div.ci_review_owner_name").text.strip()
+        try:
+            emotion_text = float(item.select_one("div.ci_review_rating_mark").text.strip())
+            if (emotion_text >= 4):
+                emotion = "positive"
+                count_positive_comments += 1
 
-        emotion_text = float(item.select_one("div.ci_review_rating_mark").text.strip())
-        if (emotion_text >= 4):
-            emotion = "positive"
-            count_positive_comments += 1
-
-        elif (emotion_text < 3):
-            emotion = "negative"
-            count_negative_comments += 1
-        else:
-            emotion = "neutral"
-            count_neitral_comments += 1
+            elif (emotion_text < 3):
+                emotion = "negative"
+                count_negative_comments += 1
+            else:
+                emotion = "neutral"
+                count_neitral_comments += 1
+        except:
+            emotion = None
     #         # # print(item)
     #         response_block = item.select_one("div.feedback-answer.text-data.feedback-firmAnswer ")
     #         # print(response_block)
@@ -81,4 +83,5 @@ def mydentist_ru(url_page):
 
 if __name__ == '__main__':
     # mydentist_ru("https://mydentist.ru/msk/clinic/38269/")
-    mydentist_ru("https://mydentist.ru/msk/doctor/35077/")
+    # mydentist_ru("https://mydentist.ru/msk/doctor/35077/")
+    mydentist_ru("https://mydentist.ru/msk/clinic/38265/")
