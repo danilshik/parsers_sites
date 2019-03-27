@@ -140,7 +140,8 @@ def yellmed_ru(url_page):
 
 
 if __name__ == '__main__':
-    yellmed_ru("https://yellmed.ru/medicinskie-centry/klinika-k-31")
+    # yellmed_ru("https://yellmed.ru/medicinskie-centry/klinika-k-31")
+    # yellmed_ru("https://yellmed.ru/medicinskie-centry/medicina-i-krasota")
     # yellmed_ru("https://yellmed.ru/vrachi/Kim_Veronika")
     # yellmed_ru("https://yellmed.ru/vrachi/Kremnev_Uriy")
     # yellmed_ru("https://yellmed.ru/vrachi/Goludeva_Galina")

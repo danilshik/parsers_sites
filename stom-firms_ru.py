@@ -24,8 +24,13 @@ def stom_firms_ru(firm_id, branch_id):
     while True:
         headers = {
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0',
+            'Host': 'www.stom-firms.ru',
+            'Accept': 'application/json, text/javascript, */*; q=0.01',
             'Referer': 'https://www.stom-firms.ru/clinics.php?i=' + str(firm_id) + '&page=' + str(page),
-            'X-Requested-With': 'XMLHttpRequest'
+            'X-Requested-With': 'XMLHttpRequest',
+            'Accept-Language': 'ru-RU,ru;q=0.8,en-US;q=0.5,en;q=0.3',
+            'Accept-Encoding': 'gzip, deflate, br',
+            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
         }
 
 
@@ -36,9 +41,9 @@ def stom_firms_ru(firm_id, branch_id):
                 'page': page,
                 'limit' : '20',
                 'addGroupPositive': firm_id,
-                'addGroupPositiveFirmId': firm_id,
+                # 'addGroupPositiveFirmId': firm_id,
                 'distrust[]' : ['affiliated', 'ip', 'contacts', 'rude', 'spam', 'constructive', 'non_feedback', 'client_doesnt_exist', 'resolved'],
-                'groupId' : '70',
+                'groupId' : firm_id,
                 'firmId' : branch_id
 
             }
@@ -46,28 +51,19 @@ def stom_firms_ru(firm_id, branch_id):
             data_post = {
                 'page' : page,
                 'limit': '20',
-                'addGroupPositive': '70',
-                'addGroupPositiveFirmId': firm_id,
+                'addGroupPositive': firm_id,
+                # 'addGroupPositiveFirmId': firm_id,
                 'distrust[]': ['affiliated', 'ip', 'contacts', 'rude', 'spam', 'constructive', 'non_feedback',
                                'client_doesnt_exist', 'resolved'],
-                'groupId' : '70'
+                'groupId' : firm_id
 
 
             }
         r = requests.post(url_test, data=data_post, proxies=proxy[0], auth=proxy[1], headers=headers).json()
-        # headers = {
-        #     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0',
-        #     'Referer' : url_test
-        # }
+        print(r)
         html_json = r["html"]
         html = ph.get_html(html_json, 'html.parser')
-        # print(html_json)
         print("Pagination:", str(page), url_test)
-        # if url_page.find("vrachi"):
-        #     type = "doctor"
-        # else:
-        #     type = "clinic"
-        # if(type is "clinic"):
         items = html.select("div.feedback-item")
         if len(items) == 0:
             break
@@ -94,10 +90,9 @@ def stom_firms_ru(firm_id, branch_id):
             #         count_neitral_comments += 1
             # except:
             emotion = None
-            # # print(item)
-            response_block = item.select_one("div.feedback-answer.text-data.feedback-firmAnswer ")
-            # print(response_block)
-            if response_block is None:
+            response_block = item.select_one("div.feedback-answer.text-data.feedback-firmAnswer> div.answer-text").text.strip()
+            print(response_block)
+            if response_block =="":
                 response = "no"
             else:
                 response = "yes"
@@ -135,4 +130,6 @@ def stom_firms_ru(firm_id, branch_id):
 
 
 if __name__ == '__main__':
-    stom_firms_ru(911, None)
+    # stom_firms_ru(683, None)
+    # stom_firms_ru(683, 913)
+    stom_firms_ru(9941, None)
